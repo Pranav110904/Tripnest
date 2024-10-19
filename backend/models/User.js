@@ -18,6 +18,10 @@ const UserSchema = new mongoose.Schema({
     bookedFlights:[{
         type:mongoose.Schema.Types.ObjectId,
         ref: 'Flight'
+    }],
+    query:[{
+        type:mongoose.Schema.ObjectId,
+        ref: 'Query'
     }]
 });
 
