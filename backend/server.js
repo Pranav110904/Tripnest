@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require('dotenv');
 const connectDB = require('./config/database');
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
 
@@ -10,6 +11,8 @@ const app = express();
 app.use(express.json());
 
 connectDB();
+
+app.use('/api/users', userRoutes);
 
 app.get('/', (req,res) => {
     res.send("Backend is up and running!");
