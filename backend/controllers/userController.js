@@ -49,3 +49,20 @@ exports.loginUser = async(req,res)=> {
         res.status(500).json({error:err.message});
     }
 };
+
+exports.forgotPassword = async(req,res)=> {
+    try{
+        const {newPassword} = req.body;
+        const user = req.user;
+        
+        user.password = newPassword;
+
+        await user.save();
+
+        res.status(200).json({ message: 'Password updated successfully' });
+
+    }catch(err) {
+        res.status(500).json({error:err.message});
+    }
+    
+}
