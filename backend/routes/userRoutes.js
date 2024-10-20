@@ -9,6 +9,6 @@ router.post('/signup', registerUser);
 router.post('/login', loginUser);
 router.put('/changePassword', authMiddleware, forgotPassword);
 router.post('/submitQuery', authMiddleware, submitQuery);
-router.put('/resolveQuery/:queryId', authMiddleware, resolveQuery);
+// router.put('/resolveQuery/:queryId', authMiddleware, resolveQuery);
 
 module.exports = router;

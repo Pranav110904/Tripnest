@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require('dotenv');
 const connectDB = require('./config/database');
 const userRoutes = require('./routes/userRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 dotenv.config();
 
@@ -13,10 +14,11 @@ app.use(express.json());
 connectDB();
 
 app.use('/api/users', userRoutes);
+app.use('/api/admin', adminRoutes);
 
-app.get('/', (req,res) => {
-    res.send("Backend is up and running!");
-})
+// app.get('/', (req,res) => {
+//     res.send("Backend is up and running!");
+// })
 
 const PORT = process.env.PORT;
 
