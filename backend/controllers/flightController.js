@@ -9,3 +9,34 @@ exports.addFlight = async(req,res)=> {
         res.status(400).json({ message: error.message });
     }
 };
+
+exports.searchFlights = async(req,res)=> {
+    try{
+        const {departureCity, arrivalCity, departureDate} = req.body;
+
+        if(!departureCity || !arrivalCity || !departureDate) {
+            return res.status(400).json({message:"please provide all the details to search flight"});
+        }
+
+        const formattedDate = new Date(departureDate).toISOString().split('T')[0];
+
+        const flights = await Flight.find({
+            departureCity: { $regex: new RegExp(departureCity, 'i') }, // Case-insensitive match
+            arrivalCity: { $regex: new RegExp(arrivalCity, 'i') },
+            departureTime: {
+                $gte: new Date(`${formattedDate}T00:00:00.000Z`), // Start of the day
+                $lt: new Date(`${formattedDate}T23:59:59.999Z`)
+            }
+        })
+
+        if (flights.length === 0) {
+            return res.status(404).json({ message: 'No flights available for this timeframe' });
+        }
+
+        res.status(200).json({flights});
+
+    }
+    catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};

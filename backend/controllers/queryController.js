@@ -18,8 +18,8 @@ exports.submitQuery = async(req,res)=> {
         // }
         user.query.push(newQuery._id);
         await user.save();
-
-        res.status(201).json({message:"Query submitted successfully", newQuery});
+        // user = await User.findById(userId).populate('query').exec();
+        res.status(201).json({message:"Query submitted successfully", user, newQuery});
     }
     catch (err) {
         res.status(500).json({ error: err.message });

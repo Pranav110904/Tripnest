@@ -66,3 +66,7 @@ exports.forgotPassword = async(req,res)=> {
     }
     
 }
+
+exports.bookTicket = async(req,res)=> {
+
+}

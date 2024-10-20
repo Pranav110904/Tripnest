@@ -17,7 +17,7 @@ const UserSchema = new mongoose.Schema({
     },
     bookedFlights:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref: 'Flight'
+        ref: 'Booking'
     }],
     query:[{
         type:mongoose.Schema.ObjectId,
