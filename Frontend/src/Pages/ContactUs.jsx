@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import axios from '../utils/axios';
 
 const ContactUs = () => {
   const [query, setQuery] = useState('');
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     console.log("Submitted Query:", query);
+    const token = localStorage.getItem('token');
+    const response = await axios.post('/api/users/submitQuery', {query}, { headers: { Authorization: `Bearer ${token}` } } );
+    console.log(response.data);
+    alert(response.data.message);
     // Optionally reset the query input after submission
     setQuery('');
   };

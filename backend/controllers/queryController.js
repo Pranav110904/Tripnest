@@ -13,11 +13,12 @@ exports.submitQuery = async(req,res)=> {
         });
         await newQuery.save();
         const user = await User.findById(userId); 
-        // if(!user) {
-        //     return res.status(404).json({ message: 'User not found' });
-        // }
+        if(!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
         user.query.push(newQuery._id);
         await user.save();
+        // console.log(user,newQuery);
         // user = await User.findById(userId).populate('query').exec();
         res.status(201).json({message:"Query submitted successfully", user, newQuery});
     }
