@@ -16,7 +16,7 @@ const FlightSearch = () => {
     travelers: 1
   });
 
-  const cities = ["Mumbai (BOM)", "Delhi (DEL)", "Bangalore (BLR)", "Hyderabad (HYD)", "Pune (PNQ)", "Chennai (MAA)", "Kolkata (CCU)", "Ahmedabad (AMD)"];
+  const cities = ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Pune", "Chennai", "Kolkata"];
 
   const handleSwap = () => {
     setSearchParams((prevParams) => ({

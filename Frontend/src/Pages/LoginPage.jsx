@@ -62,10 +62,7 @@ export default function LoginPage() {
               <div className="mx-2">OR</div>
               <div className="w-60 h-[1px] bg-[#000]"></div>
             </div>
-            <button className="border-2 border-accent w-full h-12 flex justify-center text-xs items-center gap-2 mb-4">
-              <FcGoogle size={20} /> {/* Google Icon */}
-              LOGIN WITH GOOGLE
-            </button>
+            
             <button onClick={handleLogin} className="bg-black text-[#FFF] w-full h-12 mb-4">
               LOGIN
             </button>
