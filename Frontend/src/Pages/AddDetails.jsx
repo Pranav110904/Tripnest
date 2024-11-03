@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const AddDetails = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { flight, searchParams } = location.state || {};
 
   const [passengers, setPassengers] = useState([]);
@@ -34,12 +35,32 @@ const AddDetails = () => {
     setPassengers(newPassengers);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const bookingSummary = {
+      flightNumber: flight?.flightNo || '',
+      airline: flight?.airline || '',
+      departure: flight?.departure || '',
+      arrival: flight?.arrival || '',
+      price: flight?.price || 0,
+      date: searchParams?.departDate || '',
+      class: searchParams?.passengerClass || 'Economy',
+      from: searchParams?.from || '',
+      to: searchParams?.to || '',
+      passengers: passengers.map(({ name, age, type }) => ({ name, age, type })),
+    };
+    
+    navigate('/searchFlights/adddetails/summarypage', { state: { bookingSummary } });
+};
+
+
   return (
     <div className="min-h-screen bg-gray-50 p-8 font-gilroy">
       <div className="max-w-4xl mx-auto bg-white rounded-lg shadow p-6">
         <h1 className="text-3xl font-semibold mb-6">Flight Booking Portal</h1>
 
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           {/* Flight Information */}
           {flight && (
             <div className="mb-6">
@@ -52,6 +73,7 @@ const AddDetails = () => {
             </div>
           )}
 
+          {/* Personal Information and Address (unchanged) */}
           {/* Personal Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -180,6 +202,7 @@ const AddDetails = () => {
               )}
             </div>
           )}
+ 
 
           {/* Passenger Details */}
           <div className="space-y-4">
@@ -247,8 +270,10 @@ const AddDetails = () => {
 
           <button
             type="submit"
-            className="mt-6 bg-black  text-white px-6 py-2 rounded-md hover:bg-[#6e6e6e]"
-          >
+            className="mt-6 bg-black text-white px-6 py-2 rounded-md hover:bg-[#6e6e6e]"
+            onClick={()=>{
+              handleSubmit()}}
+            >
             Submit Details
           </button>
         </form>

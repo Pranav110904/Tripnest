@@ -8,6 +8,7 @@ import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import LoginPage from './Pages/LoginPage';
 import SignUp from './Pages/SignUp';
+import SummaryPage from './Pages/SummaryPage';
 
 function App() {
   const location = useLocation();
@@ -24,6 +25,7 @@ function App() {
         <Route path="/searchFlights/adddetails" element={<AddDetails />} /> {/* Nested route for AddDetails */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/searchFlights/adddetails/summarypage" element={<SummaryPage></SummaryPage>}></Route>
       </Routes>
 
       {!isAuthPage && <Footer />}
