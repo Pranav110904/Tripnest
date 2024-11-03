@@ -15,7 +15,7 @@ const LandingPageContent = () => {
       <section className="relative h-[800px] w-full overflow-hidden rounded-3xl mx-auto my-4 max-w-[90%]">
         {/* Video Background */}
         <video
-          className="absolute inset-0 w-full h-full  object-cover"
+          className="absolute inset-0 w-full h-full -z-10  object-cover"
           src="src/assets/landingvideo.mp4"
           autoPlay
           loop
@@ -35,7 +35,7 @@ const LandingPageContent = () => {
                 Flight!
               </h1>
               <div className="flex space-x-4">
-                <button className="px-6 py-3 bg-black font-gilroy text-white rounded-full font-semibold hover:bg-gray-900 transition-colors">
+                <button className="px-6 py-3 bg-black -z-10  font-gilroy text-white rounded-full font-semibold hover:bg-gray-900 transition-colors">
                   BOOK A TICKET NOW
                 </button>
                 <button className="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors">

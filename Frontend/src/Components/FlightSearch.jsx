@@ -6,7 +6,7 @@ import axios from '../utils/axios';
 const FlightSearch = () => {
   const [tripType, setTripType] = useState('ONE_WAY');
   const [errors, setErrors] = useState({});
-  const [flights,setFlights] = useState({})
+  const [flights,setFlights] = useState([])
 
   const [searchParams, setSearchParams] = useState({
     from: '',
@@ -221,79 +221,61 @@ const FlightSearch = () => {
         
         {/* Filters and Listings */}
       <div className="col-span-3 space-y-4">
-      {[{
-        airline: 'IndiGo',
-        flightNo: '6E2279',
-        departure: '00:05',
-        arrival: '02:15',
-        duration: '2h 10m',
-        price: 5202
-      },
-      {
-        airline: 'Air India',
-        flightNo: 'AI614',
-        departure: '00:40',
-        arrival: '03:00',
-        duration: '2h 20m',
-        price: 5850
-      },
-      {
-        airline: 'Vistara',
-        flightNo: 'UK976',
-        departure: '05:30',
-        arrival: '07:40',
-        duration: '2h 10m',
-        price: 6189
-      }].map((flight, index) => (
-        <div key={index} className="bg-white rounded-lg shadow p-4">
-          <div className="flex items-center justify-between">
+      {flights.map((flight, index) => (
+    <div key={index} className="bg-white rounded-lg shadow p-4">
+        <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <img 
-                src="/api/placeholder/40/40"
-                alt={flight.airline}
-                className="w-10 h-10 object-contain"
-              />
-              <div>
-                <h3 className="font-semibold">{flight.airline}</h3>
-                <p className="text-sm text-gray-500">{flight.flightNo}</p>
-              </div>
+                <img 
+                    src={flight.ImageUrl}
+                    alt={flight.airline}
+                    className="w-10 h-10 object-contain"
+                />
+                <div>
+                    <h3 className="font-semibold">{flight.airline}</h3>
+                    <p className="text-sm text-gray-500">{flight.flightNumber}</p>
+                </div>
             </div>
 
             <div className="text-center">
-              <p className="font-semibold">{flight.departure}</p>
-              <p className="text-sm text-gray-500">PNQ</p>
+                {/* Convert the departureTime string to a Date object first */}
+                <p className="font-semibold">
+                    {new Date(flight.departureTime).toISOString().split('T')[1].split(':').slice(0, 2).join(':')}
+                </p>
+                <p className="text-sm text-gray-500">{flight.departureCity}</p>
             </div>
 
             <div className="text-center text-sm text-gray-500">
-              <p>{flight.duration}</p>
-              <p>Non-Stop</p>
+                <p>{flight.duration}</p>
+                <p>Non-Stop</p>
             </div>
 
             <div className="text-center">
-              <p className="font-semibold">{flight.arrival}</p>
-              <p className="text-sm text-gray-500">DEL</p>
+                <p className="font-semibold">
+                {new Date(flight.arrivalTime).toISOString().split('T')[1].split(':').slice(0, 2).join(':')}</p>
+                <p className="text-sm text-gray-500">{flight.arrivalCity}</p>
             </div>
 
             <div className="text-right">
-              <p className="font-semibold text-lg">₹{flight.price}</p>
-              <button
-                onClick={() => {
-                  const token = localStorage.getItem("token"); // Check for token
-                  if (token) {
-                    navigate('/searchFlights/adddetails', { state: { flight, searchParams } }); // Redirect to add details
-                  } else {
-                    navigate('/login'); // Redirect to login page
-                  }
-                }}
-                className="bg-black text-white px-4 py-2 rounded-full mt-2"
-              >
-                Book Now
-              </button>
-
+                <p className="font-semibold text-lg">₹{flight.price}</p>
+                <button
+                    onClick={() => {
+                        const token = localStorage.getItem("token"); // Check for token
+                        if (token) {
+                            navigate('/searchFlights/adddetails', { state: { flight, searchParams } }); // Redirect to add details
+                        } else {
+                            navigate('/login'); // Redirect to login page
+                        }
+                    }}
+                    className="bg-black text-white px-4 py-2 rounded-full mt-2"
+                >
+                    Book Now
+                </button>
             </div>
-          </div>
         </div>
-      ))}
+    </div>
+))}
+
+
     </div>
 
 

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import logo from '/src/assets/logo.svg';
-
+import Popup from '../Components/Pop'; // Adjust the path according to your project structure
+import axios from '../utils/axios';
 const SummaryPage = () => {
   const location = useLocation();
   const { bookingSummary } = location.state || {}; // Access bookingSummary
@@ -14,13 +15,32 @@ const SummaryPage = () => {
     date, 
     class: passengerClass, 
     from, 
-    to, 
+    to,
+    email, 
     passengers 
   } = bookingSummary || {};
 
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    setShowPopup(true); // Show popup when the component mounts
+  }, []);
+
+  const handleClosePopup = () => {
+    setShowPopup(false); // Close the popup
+  };
+
+  
+  console.log(flightNumber,passengers.length)
+  
+
   return (
-    <div className="max-w-5xl mx-auto p-12 font-gilroy  rounded-lg shadow-lg">
+    <div className="max-w-5xl mx-auto p-12 font-gilroy rounded-lg shadow-lg">
       <img src={logo} alt="Logo" className="w-32 mb-10 mx-auto" />
+      
+      {showPopup && (
+        <Popup message="You have successfully booked your flight!" onClose={handleClosePopup} />
+      )}
 
       <h1 className="text-6xl font-semibold text-center mb-10 text-gray-800">Summary</h1>
 

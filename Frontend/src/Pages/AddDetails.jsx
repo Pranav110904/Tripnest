@@ -34,20 +34,22 @@ const AddDetails = () => {
     newPassengers[index] = { ...newPassengers[index], [field]: value };
     setPassengers(newPassengers);
   };
+  const [email, setEmail] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const bookingSummary = {
-      flightNumber: flight?.flightNo || '',
+      flightNumber: flight?.flightNumber || '',
       airline: flight?.airline || '',
-      departure: flight?.departure || '',
-      arrival: flight?.arrival || '',
+      departure: flight?.departureCity || '',
+      arrival: flight?.arrivalCity || '',
       price: flight?.price || 0,
       date: searchParams?.departDate || '',
       class: searchParams?.passengerClass || 'Economy',
       from: searchParams?.from || '',
       to: searchParams?.to || '',
+      email: email || '' ,
       passengers: passengers.map(({ name, age, type }) => ({ name, age, type })),
     };
     
@@ -66,9 +68,9 @@ const AddDetails = () => {
             <div className="mb-6">
               <h2 className="text-xl font-semibold">Flight Information</h2>
               <p className='font-semibold'>Airline: {flight.airline}</p>
-              <p className='font-semibold'>Flight No: {flight.flightNo}</p>
-              <p className='font-semibold'>Departure: {flight.departure}</p>
-              <p className='font-semibold'>Arrival: {flight.arrival}</p>
+              <p className='font-semibold'>Flight No: {flight.flightNumber}</p>
+              <p className='font-semibold'>Departure: {flight.departureCity}</p>
+              <p className='font-semibold'>Arrival: {flight.arrivalCity}</p>
               <p className='font-semibold'>Price: ₹{flight.price}</p>
             </div>
           )}
@@ -88,6 +90,8 @@ const AddDetails = () => {
               <label className="block text-sm font-medium mb-1">Email</label>
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="email@example.com"
                 className="w-full p-2 border rounded-md"
               />

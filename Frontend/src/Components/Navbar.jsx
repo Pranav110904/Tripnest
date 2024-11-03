@@ -94,7 +94,7 @@ const Navbar = () => {
         className={`lg:hidden bg-white shadow-md absolute top-0 right-0 h-full w-2/3 transition-transform ${isMenuOpen ? 'block' : 'hidden'}`}
         style={{ transform: 'translateX(100%)' }} // Initially hidden off the screen
       >
-        <div className="flex justify-between items-center px-4 py-3">
+        <div className="flex justify-between items-center  px-4 py-3">
           <h2 className="text-lg font-semibold">Menu</h2>
           <button onClick={toggleMenu} className="focus:outline-none">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
