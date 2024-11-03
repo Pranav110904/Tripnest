@@ -1,16 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, useLocation } from 'react-router-dom';
+import './App.css';
+import Home from './Pages/Home';
+import ContactUs from './Pages/ContactUs';
+import BookNow from './Pages/BookNow';
+import AddDetails from './Pages/AddDetails'; // Import the AddDetails component
+import Navbar from './Components/Navbar';
+import Footer from './Components/Footer';
+import LoginPage from './Pages/LoginPage';
+import SignUp from './Pages/SignUp';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup';
 
   return (
     <>
-      <div className=' bg-red-500'>HEllo</div>
+      {!isAuthPage && <Navbar />}
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/searchFlights" element={<BookNow />} />
+        <Route path="/searchFlights/adddetails" element={<AddDetails />} /> {/* Nested route for AddDetails */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
+
+      {!isAuthPage && <Footer />}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
