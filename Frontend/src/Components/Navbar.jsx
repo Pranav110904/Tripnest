@@ -3,6 +3,7 @@ import { NavLink, Link } from 'react-router-dom';
 import logo from '../assets/logo.svg';
 import { gsap } from 'gsap';
 import {useGSAP} from '@gsap/react'
+import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
   // State to control the mobile menu visibility
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,7 +13,7 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
+  const navigate = useNavigate();
   // GSAP animation for opening and closing the menu
   useGSAP(() => {
     if (isMenuOpen) {
@@ -75,8 +76,8 @@ const Navbar = () => {
           QUERY SUPPORT
           </NavLink>
         </div>
-        <Link to="/book-now" className="hidden lg:block">
-          <button className="bg-black text-white font-semibold py-2 px-4 rounded-xl hover:bg-gray-700 font-gilroy">
+        <Link to="/searchFlights" className="hidden lg:block">
+          <button  className="bg-black text-white font-semibold py-2 px-4 rounded-xl hover:bg-gray-700 font-gilroy">
             BOOK NOW
           </button>
         </Link>
@@ -91,7 +92,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div 
         ref={menuRef} 
-        className={`lg:hidden bg-white shadow-md absolute top-0 right-0 h-full w-2/3 transition-transform ${isMenuOpen ? 'block' : 'hidden'}`}
+        className={`lg:hidden bg-white shadow-md z-50 absolute top-0 right-0 h-full w-2/3 transition-transform ${isMenuOpen ? 'block' : 'hidden'}`}
         style={{ transform: 'translateX(100%)' }} // Initially hidden off the screen
       >
         <div className="flex justify-between items-center  px-4 py-3">

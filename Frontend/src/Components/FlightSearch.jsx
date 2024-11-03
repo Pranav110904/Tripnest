@@ -95,7 +95,7 @@ const FlightSearch = () => {
       </div>
 
       {/* Search Form */}
-      <div className="bg-white h-[550px] rounded-lg shadow-lg p-6 mb-8">
+      <div className="bg-white rounded-lg shadow-lg p-6 mb-8 overflow-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div className="space-y-2">
             <label className="text-lg font-semibold text-black">From</label>
@@ -135,38 +135,35 @@ const FlightSearch = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <div className="space-y-2">
-          <label className="text-lg font-semibold text-black">Departure Date</label>
-          <input
-            type="date"
-            className="w-full p-2 bg-[#efeeef] border rounded"
-            // Set the minimum date to today in yyyy-mm-dd format
-            min={new Date().toISOString().split('T')[0]}
-            value={searchParams.departDate} // This should already be in yyyy-mm-dd format
-            onChange={(e) => 
-              setSearchParams({...searchParams, departDate: e.target.value}) // e.target.value is already in yyyy-mm-dd
-            }
-          />
-          {errors.departDate && <p className="text-red-500 text-lg font-semibold">{errors.departDate}</p>}
-        </div>
-        {tripType === 'ROUND_WAY' && (
           <div className="space-y-2">
-            <label className="text-lg font-semibold text-black">Return Date</label>
+            <label className="text-lg font-semibold text-black">Departure Date</label>
             <input
               type="date"
-              className="w-full bg-[#efeeef] p-2 border rounded"
-              // Set the minimum date to the departure date or today
-              min={searchParams.departDate || new Date().toISOString().split('T')[0]}
-              value={searchParams.returnDate} // This should also be in yyyy-mm-dd format
+              className="w-full p-2 bg-[#efeeef] border rounded"
+              min={new Date().toISOString().split('T')[0]}
+              value={searchParams.departDate}
               onChange={(e) => 
-                setSearchParams({...searchParams, returnDate: e.target.value}) // e.target.value is already in yyyy-mm-dd
+                setSearchParams({...searchParams, departDate: e.target.value})
               }
             />
-            {errors.returnDate && <p className="text-red-500 text-lg font-semibold">{errors.returnDate}</p>}
+            {errors.departDate && <p className="text-red-500 text-lg font-semibold">{errors.departDate}</p>}
           </div>
-        )}
-      </div>
-
+          {tripType === 'ROUND_WAY' && (
+            <div className="space-y-2">
+              <label className="text-lg font-semibold text-black">Return Date</label>
+              <input
+                type="date"
+                className="w-full bg-[#efeeef] p-2 border rounded"
+                min={searchParams.departDate || new Date().toISOString().split('T')[0]}
+                value={searchParams.returnDate}
+                onChange={(e) => 
+                  setSearchParams({...searchParams, returnDate: e.target.value})
+                }
+              />
+              {errors.returnDate && <p className="text-red-500 text-lg font-semibold">{errors.returnDate}</p>}
+            </div>
+          )}
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="space-y-2">
@@ -195,7 +192,7 @@ const FlightSearch = () => {
 
         <div className="mb-4">
           <label className="text-lg font-semibold text-black">Special Fares:</label>
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-wrap">
             {['Student', 'Senior Citizen', 'Armed Forces'].map((fare) => (
               <button
                 key={fare}
@@ -218,6 +215,7 @@ const FlightSearch = () => {
           <Search size={18} />
         </button>
       </div>
+
         
         {/* Filters and Listings */}
       <div className="col-span-3 space-y-4">
