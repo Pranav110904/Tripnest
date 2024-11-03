@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FcGoogle } from 'react-icons/fc';
 import loginImage from '../assets/loginPhoto.jpg';
 import { useNavigate } from "react-router-dom";
+import axios from '../utils/axios';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
     if (!email || !password) {
       setError("Please enter both email and password.");
       return;
@@ -24,6 +25,16 @@ export default function LoginPage() {
 
     const loginData = { email, password };
     console.log("Login Data:", loginData);
+    try{
+      const response = await axios.post('/api/users/login', loginData);
+      console.log("Login Response:", response.data);
+      alert(response.data.message);
+      localStorage.setItem("token", response.data.token);
+      navigate('/searchFlights');
+    }catch(error) {
+      console.error("Login Error:", error.response.data);
+      setError(error.response.data.message || 'Error logging in.');
+    }
     // You can later send loginData to the backend
   };
 

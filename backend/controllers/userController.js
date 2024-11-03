@@ -43,7 +43,7 @@ exports.loginUser = async(req,res)=> {
         const token = jwt.sign({id:user._id}, process.env.JWT_SECRET, {expiresIn:'24hr'});
         user = user.toObject();
         delete user.password;
-        res.status(200).json({token, user});
+        res.status(200).json({token, user, message:'User Login successfully'});
 
     }catch(err) {
         res.status(500).json({error:err.message});
