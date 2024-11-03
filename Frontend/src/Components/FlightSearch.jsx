@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Calendar, Users, Search, Repeat } from 'lucide-react';
+import axios from '../utils/axios';
 
 const FlightSearch = () => {
   const [tripType, setTripType] = useState('ONE_WAY');
   const [errors, setErrors] = useState({});
+  const [flights,setFlights] = useState({})
 
   const [searchParams, setSearchParams] = useState({
     from: '',
@@ -28,7 +30,7 @@ const FlightSearch = () => {
 
   const navigate = useNavigate();
 
-  const handleSearch = () => {
+  const handleSearch = async() => {
     const newErrors = {};
     const requiredFields = ['from', 'to', 'departDate'];
 
@@ -51,7 +53,26 @@ const FlightSearch = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log('Search parameters:', searchParams);
+      try {
+        console.log('Search parameters:', searchParams);
+        const response = await axios.get("/api/users/searchFlights", {
+          params: {
+            departureCity: searchParams.from,
+            arrivalCity: searchParams.to,
+            departureDate: searchParams.departDate,
+            returnDate: tripType === 'ROUND_WAY' ? searchParams.returnDate : undefined, // Only send returnDate if round trip
+          },
+          headers: {
+            'Content-Type': 'application/json', // Optional for GET, but included for clarity
+          },
+        });
+  
+        setFlights(response.data.flights); // Store flights in state
+        console.log(response.data.flights);
+      } catch (error) {
+        console.error(error);
+        setErrors({ api: 'Failed to fetch flights. Please try again later.' });
+      }
     }
   };
 
@@ -114,31 +135,38 @@ const FlightSearch = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="space-y-2">
+          <label className="text-lg font-semibold text-black">Departure Date</label>
+          <input
+            type="date"
+            className="w-full p-2 bg-[#efeeef] border rounded"
+            // Set the minimum date to today in yyyy-mm-dd format
+            min={new Date().toISOString().split('T')[0]}
+            value={searchParams.departDate} // This should already be in yyyy-mm-dd format
+            onChange={(e) => 
+              setSearchParams({...searchParams, departDate: e.target.value}) // e.target.value is already in yyyy-mm-dd
+            }
+          />
+          {errors.departDate && <p className="text-red-500 text-lg font-semibold">{errors.departDate}</p>}
+        </div>
+        {tripType === 'ROUND_WAY' && (
           <div className="space-y-2">
-            <label className="text-lg font-semibold text-black">Departure Date</label>
+            <label className="text-lg font-semibold text-black">Return Date</label>
             <input
               type="date"
-              className="w-full p-2 bg-[#efeeef] border rounded"
-              min={new Date().toISOString().split('T')[0]}
-              value={searchParams.departDate}
-              onChange={(e) => setSearchParams({...searchParams, departDate: e.target.value})}
+              className="w-full bg-[#efeeef] p-2 border rounded"
+              // Set the minimum date to the departure date or today
+              min={searchParams.departDate || new Date().toISOString().split('T')[0]}
+              value={searchParams.returnDate} // This should also be in yyyy-mm-dd format
+              onChange={(e) => 
+                setSearchParams({...searchParams, returnDate: e.target.value}) // e.target.value is already in yyyy-mm-dd
+              }
             />
-            {errors.departDate && <p className="text-red-500 text-lg font-semibold">{errors.departDate}</p>}
+            {errors.returnDate && <p className="text-red-500 text-lg font-semibold">{errors.returnDate}</p>}
           </div>
-          {tripType === 'ROUND_WAY' && (
-            <div className="space-y-2">
-              <label className="text-lg font-semibold text-black">Return Date</label>
-              <input
-                type="date"
-                className="w-full bg-[#efeeef] p-2 border rounded"
-                min={searchParams.departDate || new Date().toISOString().split('T')[0]}
-                value={searchParams.returnDate}
-                onChange={(e) => setSearchParams({...searchParams, returnDate: e.target.value})}
-              />
-              {errors.returnDate && <p className="text-red-500 text-lg font-semibold">{errors.returnDate}</p>}
-            </div>
-          )}
-        </div>
+        )}
+      </div>
+
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <div className="space-y-2">
@@ -248,12 +276,20 @@ const FlightSearch = () => {
 
             <div className="text-right">
               <p className="font-semibold text-lg">₹{flight.price}</p>
-              <button 
-                onClick={() => navigate('/searchFlights/adddetails', {state: {flight,searchParams}})}
+              <button
+                onClick={() => {
+                  const token = localStorage.getItem("token"); // Check for token
+                  if (token) {
+                    navigate('/searchFlights/adddetails', { state: { flight, searchParams } }); // Redirect to add details
+                  } else {
+                    navigate('/login'); // Redirect to login page
+                  }
+                }}
                 className="bg-black text-white px-4 py-2 rounded-full mt-2"
               >
                 Book Now
               </button>
+
             </div>
           </div>
         </div>

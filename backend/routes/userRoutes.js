@@ -1,6 +1,6 @@
 const express = require("express");
 const {registerUser, loginUser, forgotPassword} = require("../controllers/userController");
-const {submitQuery, resolveQuery} = require("../controllers/queryController");
+const {submitQuery} = require("../controllers/queryController");
 const {searchFlights} = require("../controllers/flightController");
 const {createBooking} = require('../controllers/bookingController');
 const authMiddleware = require("../middlewares/authMiddleware");
