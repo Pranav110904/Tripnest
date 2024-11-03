@@ -38,15 +38,17 @@ const flightSchema = new mongoose.Schema({
         type: String,
         required:true
     },
-    status: {
-        type:String,
-        enum: ['on-time', 'delayed', 'cancelled'],
-        default: 'on-time'
-    },
     flightClass: {
         type: String,
         enum: ['economy', 'business', 'first-class'],
         default: 'economy'
+    },
+    specialFare: {
+        type: String,
+        enum:['Senior Citizen', 'Student', 'Armed Forces']
+    },
+    imageUrl: {
+        type: String
     }
 });
 
