@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from '../utils/axios';
 
 const AddDetails = () => {
   const location = useLocation();
@@ -36,7 +37,7 @@ const AddDetails = () => {
   };
   const [email, setEmail] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     const bookingSummary = {
@@ -52,8 +53,29 @@ const AddDetails = () => {
       email: email || '' ,
       passengers: passengers.map(({ name, age, type }) => ({ name, age, type })),
     };
+    try{
+      const token = localStorage.getItem('token');
+      console.log(bookingSummary);
+      
+      const response = await axios.post('/api/users/bookTicket', {bookingSummary}, { headers: { Authorization: `Bearer ${token}` } } );
+      
+      
+      // bookingdetails1=JSON.stringify(response.data.booking)
+      
+      if (response.status === 201) {
+        console.log('Booking data received from backend:', response.data.booking);
+        localStorage.setItem("bookingDetails", JSON.stringify(response.data.booking));
+      }
+      // console.log(bookingSummary, passengers.length);
+      navigate('/searchFlights/adddetails/summarypage', { state: { bookingSummary } });
+    }catch (error) {
+      console.log(error.message);
+      
+      console.error(error);
+      alert('An error occurred while booking the flight');
+    }
     
-    navigate('/searchFlights/adddetails/summarypage', { state: { bookingSummary } });
+    // navigate('/searchFlights/adddetails/summarypage', { state: { bookingSummary } });
 };
 
 
@@ -272,13 +294,8 @@ const AddDetails = () => {
             ))}
           </div>
 
-          <button
-            type="submit"
-            className="mt-6 bg-black text-white px-6 py-2 rounded-md hover:bg-[#6e6e6e]"
-            onClick={()=>{
-              handleSubmit()}}
-            >
-            Submit Details
+          <button type="submit" className="mt-6 bg-black text-white px-6 py-2 rounded-md hover:bg-[#6e6e6e]" >
+              Submit Details
           </button>
         </form>
       </div>

@@ -3,30 +3,38 @@ const User = require('../models/User');
 const Flight = require('../models/Flight');
 
 exports.createBooking = async(req,res)=> {
+    // console.log(req.body)
     try{
         const {flightNumber, passengers} = req.body;
         const userId = req.user._id;
+        // console.log(userId)
+        // console.log("fuck");
+        
+        console.log(req.body.bookingSummary.flightNumber);
+        
+        const flight = await Flight.findOne({flightNumber: req.body.bookingSummary.flightNumber});
 
-    const flight = await Flight.findOne({flightNumber: flightNumber});
 
     if(!flight) {
         return res.status(404).json({ message: "Flight not found" });
     }
-
+    // console.log("fuck 5",flight);
+    
     const newBooking = new Booking({
         userId: userId,
         flightId: flight._id,  // Use the flight's ID for the booking
         // seatNumbers: seatNumbers,
-        passengers: passengers.length
+        passengers: req.body.bookingSummary.passengers.length
     });
 
-    await newBooking.save();
-
+    await newBooking.save()
+    
+    // console.log("6");
     const user = await User.findById(userId);
     user.bookedFlights.push(newBooking._id);
     await user.save();
 
-    flight.seatsAvailable -= passengers.length;
+    flight.seatsAvailable -= req.body.bookingSummary.passengers.length;
     await flight.save();
 
     const populatedBooking = await Booking.findById(newBooking._id).populate('userId').populate('flightId').exec();
