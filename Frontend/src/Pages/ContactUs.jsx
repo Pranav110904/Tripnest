@@ -9,6 +9,7 @@ const ContactUs = () => {
     const token = localStorage.getItem('token');
     const response = await axios.post('/api/users/submitQuery', {query}, { headers: { Authorization: `Bearer ${token}` } } );
     console.log(response.data);
+    // localStorage.setItem('query',response.data.newQuery);
     alert(response.data.message);
     // Optionally reset the query input after submission
     setQuery('');

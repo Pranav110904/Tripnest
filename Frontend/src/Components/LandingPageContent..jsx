@@ -2,11 +2,12 @@ import React from 'react';
 import { Play } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+
 const LandingPageContent = () => {
   const destinations = [
-    { name: 'Udaipur', rating: '4.5/5', image: 'src/assets/udaipur.jpg' },
-    { name: 'Agra', rating: '4.8/5', image: 'src/assets/agra.png' },
-    { name: 'New Delhi', rating: '4.6/5', image: 'src/assets/Newdelhi.png' },
+    { name: 'Udaipur', rating: '4.5/5', image: '/src/assets/udaipur.jpg' },
+    { name: 'Agra', rating: '4.8/5', image: '/src/assets/agra.png' },
+    { name: 'New Delhi', rating: '4.6/5', image: '/src/assets/Newdelhi.png' },
   ];
 
   const navigate = useNavigate();
@@ -57,11 +58,11 @@ const LandingPageContent = () => {
           <div className="flex items-center space-x-4">
             <span className="font-medium font-gilroy">Handels</span>
             <div className="flex space-x-2">
-              <span><img src='src/assets/facebook.png' alt="Facebook" /></span>
-              <span><img src='src/assets/instagram.png' alt="Instagram" /></span>
+              <span><img src='/src/assets/facebook.png' alt="Facebook" /></span>
+              <span><img src='/src/assets/instagram.png' alt="Instagram" /></span>
             </div>
           </div>
-          <img src="src/assets/airbnb.png" alt="Airbnb" className="h-10 object-contain" />
+          <img src="/src/assets/airbnb.png" alt="Airbnb" className="h-10 object-contain" />
           <img src="/src/assets/Booking.com.png" alt="Booking.com" className="h-8 object-contain" />
           <img src="/src/assets/Trivago.png" alt="Trivago" className="h-8 object-contain" />
           <img src="/src/assets/Ixigo.png" alt="Ixigo" className="h-8 object-contain" />

@@ -64,7 +64,7 @@ const AddDetails = () => {
       
       if (response.status === 201) {
         console.log('Booking data received from backend:', response.data.booking);
-        localStorage.setItem("bookingDetails", JSON.stringify(response.data.booking));
+        // localStorage.setItem("bookingDetails", JSON.stringify(response.data.booking));
       }
       // console.log(bookingSummary, passengers.length);
       navigate('/searchFlights/adddetails/summarypage', { state: { bookingSummary } });
